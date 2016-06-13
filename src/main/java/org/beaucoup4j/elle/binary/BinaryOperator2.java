@@ -15,6 +15,7 @@
  */
 package org.beaucoup4j.elle.binary;
 
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
@@ -34,6 +35,14 @@ public interface BinaryOperator2<T> extends BinaryOperator<T> {
     static <T> BinaryOperator2<T> of(BinaryOperator<T> wrapped) {
         Objects.requireNonNull(wrapped);
         return wrapped instanceof BinaryOperator2 ? (BinaryOperator2<T>) wrapped : (t, u) -> wrapped.apply(t, u);
+    }
+
+    static <T extends Comparable<T>> BinaryOperator2<T> max() {
+        return of(BinaryOperator.maxBy(Comparator.naturalOrder()));
+    }
+
+    static <T extends Comparable<T>> BinaryOperator2<T> min() {
+        return of(BinaryOperator.minBy(Comparator.naturalOrder()));
     }
 
     @Override

@@ -55,14 +55,15 @@ public interface ObjLongConsumer2<T> extends ObjLongConsumer<T> {
         return () -> accept(t.get(), l.getAsLong());
     }
 
-    default <G, H> BiConsumer<G, H> compose(Function<? super G, ? extends T> leftBefore,
+    default <G, H> BiConsumer<G, H> composeFunctions(Function<? super G, ? extends T> leftBefore,
             ToLongFunction<? super H> rightBefore) {
         Objects.requireNonNull(leftBefore);
         Objects.requireNonNull(rightBefore);
         return (g, h) -> accept(leftBefore.apply(g), rightBefore.applyAsLong(h));
     }
 
-    default <G> ObjLongConsumer<G> compose(Function<? super G, ? extends T> leftBefore, LongUnaryOperator rightBefore) {
+    default <G> ObjLongConsumer<G> composeFunctionOperator(Function<? super G, ? extends T> leftBefore,
+            LongUnaryOperator rightBefore) {
         Objects.requireNonNull(leftBefore);
         Objects.requireNonNull(rightBefore);
         return (g, l) -> accept(leftBefore.apply(g), rightBefore.applyAsLong(l));

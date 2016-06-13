@@ -84,21 +84,21 @@ public interface Runnable2 extends Runnable {
         return (t, u) -> run();
     }
 
-    default <T, U> ToDoubleBiFunction2<T, U> asBiFunction(DoubleSupplier after) {
+    default <T, U> ToDoubleBiFunction2<T, U> asToDoubleBiFunction(DoubleSupplier after) {
         return (t, u) -> {
             run();
             return after.getAsDouble();
         };
     }
 
-    default <T, U> ToIntBiFunction2<T, U> asBiFunction(IntSupplier after) {
+    default <T, U> ToIntBiFunction2<T, U> asToIntBiFunction(IntSupplier after) {
         return (t, u) -> {
             run();
             return after.getAsInt();
         };
     }
 
-    default <T, U> ToLongBiFunction2<T, U> asBiFunction(LongSupplier after) {
+    default <T, U> ToLongBiFunction2<T, U> asToLongBiFunction(LongSupplier after) {
         return (t, u) -> {
             run();
             return after.getAsLong();
@@ -155,21 +155,21 @@ public interface Runnable2 extends Runnable {
         };
     }
 
-    default <T> ToDoubleFunction2<T> asFunction(DoubleSupplier after) {
+    default <T> ToDoubleFunction2<T> asToDoubleFunction(DoubleSupplier after) {
         return t -> {
             run();
             return after.getAsDouble();
         };
     }
 
-    default <T> ToIntFunction2<T> asFunction(IntSupplier after) {
+    default <T> ToIntFunction2<T> asToIntFunction(IntSupplier after) {
         return t -> {
             run();
             return after.getAsInt();
         };
     }
 
-    default <T> ToLongFunction2<T> asFunction(LongSupplier after) {
+    default <T> ToLongFunction2<T> asToLongFunction(LongSupplier after) {
         return t -> {
             run();
             return after.getAsLong();
@@ -224,21 +224,21 @@ public interface Runnable2 extends Runnable {
         };
     }
 
-    default DoubleUnaryOperator2 asUnaryOperator(DoubleSupplier after) {
+    default DoubleUnaryOperator2 asDoubleUnaryOperator(DoubleSupplier after) {
         return d -> {
             run();
             return after.getAsDouble();
         };
     }
 
-    default IntUnaryOperator2 asUnaryOperator(IntSupplier after) {
+    default IntUnaryOperator2 asIntUnaryOperator(IntSupplier after) {
         return i -> {
             run();
             return after.getAsInt();
         };
     }
 
-    default LongUnaryOperator2 asUnaryOperator(LongSupplier after) {
+    default LongUnaryOperator2 asLongUnaryOperator(LongSupplier after) {
         return l -> {
             run();
             return after.getAsLong();

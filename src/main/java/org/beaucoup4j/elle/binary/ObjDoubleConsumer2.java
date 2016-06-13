@@ -55,14 +55,14 @@ public interface ObjDoubleConsumer2<T> extends ObjDoubleConsumer<T> {
         return () -> accept(t.get(), d.getAsDouble());
     }
 
-    default <G, H> BiConsumer<G, H> compose(Function<? super G, ? extends T> leftBefore,
+    default <G, H> BiConsumer<G, H> composeFunctions(Function<? super G, ? extends T> leftBefore,
             ToDoubleFunction<? super H> rightBefore) {
         Objects.requireNonNull(leftBefore);
         Objects.requireNonNull(rightBefore);
         return (g, h) -> accept(leftBefore.apply(g), rightBefore.applyAsDouble(h));
     }
 
-    default <G> ObjDoubleConsumer<G> compose(Function<? super G, ? extends T> leftBefore,
+    default <G> ObjDoubleConsumer<G> composeFunctionOperator(Function<? super G, ? extends T> leftBefore,
             DoubleUnaryOperator rightBefore) {
         Objects.requireNonNull(leftBefore);
         Objects.requireNonNull(rightBefore);

@@ -50,13 +50,13 @@ public interface DoubleBinaryOperator2 extends DoubleBinaryOperator {
         return () -> applyAsDouble(left.getAsDouble(), right.getAsDouble());
     }
 
-    default DoubleBinaryOperator compose(DoubleUnaryOperator leftBefore, DoubleUnaryOperator rightBefore) {
+    default DoubleBinaryOperator composeOperators(DoubleUnaryOperator leftBefore, DoubleUnaryOperator rightBefore) {
         Objects.requireNonNull(leftBefore);
         Objects.requireNonNull(rightBefore);
         return (d1, d2) -> applyAsDouble(leftBefore.applyAsDouble(d1), rightBefore.applyAsDouble(d2));
     }
 
-    default <T, U> ToDoubleBiFunction<T, U> compose(ToDoubleFunction<? super T> leftBefore,
+    default <T, U> ToDoubleBiFunction<T, U> composeFunctions(ToDoubleFunction<? super T> leftBefore,
             ToDoubleFunction<? super U> rightBefore) {
         Objects.requireNonNull(leftBefore);
         Objects.requireNonNull(rightBefore);

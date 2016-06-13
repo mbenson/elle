@@ -50,13 +50,13 @@ public interface IntBinaryOperator2 extends IntBinaryOperator {
         return () -> applyAsInt(left.getAsInt(), right.getAsInt());
     }
 
-    default IntBinaryOperator compose(IntUnaryOperator leftBefore, IntUnaryOperator rightBefore) {
+    default IntBinaryOperator composeOperators(IntUnaryOperator leftBefore, IntUnaryOperator rightBefore) {
         Objects.requireNonNull(leftBefore);
         Objects.requireNonNull(rightBefore);
         return (i1, i2) -> applyAsInt(leftBefore.applyAsInt(i1), rightBefore.applyAsInt(i2));
     }
 
-    default <T, U> ToIntBiFunction<T, U> compose(ToIntFunction<? super T> leftBefore,
+    default <T, U> ToIntBiFunction<T, U> composeFunctions(ToIntFunction<? super T> leftBefore,
             ToIntFunction<? super U> rightBefore) {
         Objects.requireNonNull(leftBefore);
         Objects.requireNonNull(rightBefore);

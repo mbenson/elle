@@ -50,13 +50,13 @@ public interface LongBinaryOperator2 extends LongBinaryOperator {
         return () -> applyAsLong(left.getAsLong(), right.getAsLong());
     }
 
-    default LongBinaryOperator compose(LongUnaryOperator leftBefore, LongUnaryOperator rightBefore) {
+    default LongBinaryOperator composeOperators(LongUnaryOperator leftBefore, LongUnaryOperator rightBefore) {
         Objects.requireNonNull(leftBefore);
         Objects.requireNonNull(rightBefore);
         return (l1, l2) -> applyAsLong(leftBefore.applyAsLong(l1), rightBefore.applyAsLong(l2));
     }
 
-    default <T, U> ToLongBiFunction<T, U> compose(ToLongFunction<? super T> leftBefore,
+    default <T, U> ToLongBiFunction<T, U> composeFunctions(ToLongFunction<? super T> leftBefore,
             ToLongFunction<? super U> rightBefore) {
         Objects.requireNonNull(leftBefore);
         Objects.requireNonNull(rightBefore);

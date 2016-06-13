@@ -54,14 +54,15 @@ public interface ObjIntConsumer2<T> extends ObjIntConsumer<T> {
         return () -> accept(t.get(), i.getAsInt());
     }
 
-    default <G, H> BiConsumer<G, H> compose(Function<? super G, ? extends T> leftBefore,
+    default <G, H> BiConsumer<G, H> composeFunctions(Function<? super G, ? extends T> leftBefore,
             ToIntFunction<? super H> rightBefore) {
         Objects.requireNonNull(leftBefore);
         Objects.requireNonNull(rightBefore);
         return (g, h) -> accept(leftBefore.apply(g), rightBefore.applyAsInt(h));
     }
 
-    default <G> ObjIntConsumer<G> compose(Function<? super G, ? extends T> leftBefore, IntUnaryOperator rightBefore) {
+    default <G> ObjIntConsumer<G> composeFunctionOperator(Function<? super G, ? extends T> leftBefore,
+            IntUnaryOperator rightBefore) {
         Objects.requireNonNull(leftBefore);
         Objects.requireNonNull(rightBefore);
         return (g, i) -> accept(leftBefore.apply(g), rightBefore.applyAsInt(i));
