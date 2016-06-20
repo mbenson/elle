@@ -13,32 +13,27 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.beaucoup4j.elle.varargs;
+package org.beaucoup4j.elle.unary;
 
-import org.beaucoup4j.elle.unary.LConsumer;
+import java.util.Objects;
+import java.util.function.DoubleSupplier;
+import java.util.function.DoubleToIntFunction;
+import java.util.function.IntSupplier;
 
 /**
- * Varargs consumer.
- *
- * @param <E>
+ * Extend {@link DoubleToIntFunction}.
  */
 @FunctionalInterface
-public interface VarConsumer<E> {
-    static <E> VarConsumer<E> noop() {
-        return e -> {
-        };
+public interface LDoubleToIntFunction extends DoubleToIntFunction {
+
+    static LDoubleToIntFunction of(DoubleToIntFunction wrapped) {
+        Objects.requireNonNull(wrapped);
+        return wrapped instanceof LDoubleToIntFunction ? (LDoubleToIntFunction) wrapped : d -> wrapped.applyAsInt(d);
     }
 
-    void accept(@SuppressWarnings("unchecked") E... elements);
-
-    default VarConsumer<E> andThen(VarConsumer<? super E> after) {
-        return e -> {
-            accept(e);
-            after.accept(e);
-        };
+    default IntSupplier bind(DoubleSupplier d) {
+        Objects.requireNonNull(d);
+        return () -> applyAsInt(d.getAsDouble());
     }
 
-    default LConsumer<E[]> toUnary() {
-        return e -> accept(e);
-    }
 }

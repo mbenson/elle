@@ -13,32 +13,27 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.beaucoup4j.elle.varargs;
+package org.beaucoup4j.elle.unary;
 
-import org.beaucoup4j.elle.unary.LConsumer;
+import java.util.Objects;
+import java.util.function.IntSupplier;
+import java.util.function.LongSupplier;
+import java.util.function.LongToIntFunction;
 
 /**
- * Varargs consumer.
- *
- * @param <E>
+ * Extend {@link LongToIntFunction}.
  */
 @FunctionalInterface
-public interface VarConsumer<E> {
-    static <E> VarConsumer<E> noop() {
-        return e -> {
-        };
+public interface LLongToIntFunction extends LongToIntFunction {
+
+    static LLongToIntFunction of(LongToIntFunction wrapped) {
+        Objects.requireNonNull(wrapped);
+        return wrapped instanceof LLongToIntFunction ? (LLongToIntFunction) wrapped : l -> wrapped.applyAsInt(l);
     }
 
-    void accept(@SuppressWarnings("unchecked") E... elements);
-
-    default VarConsumer<E> andThen(VarConsumer<? super E> after) {
-        return e -> {
-            accept(e);
-            after.accept(e);
-        };
+    default IntSupplier bind(LongSupplier i) {
+        Objects.requireNonNull(i);
+        return () -> applyAsInt(i.getAsLong());
     }
 
-    default LConsumer<E[]> toUnary() {
-        return e -> accept(e);
-    }
 }

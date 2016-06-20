@@ -13,37 +13,32 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.beaucoup4j.elle.varargs;
+package org.beaucoup4j.elle.nullary;
 
-import java.util.Objects;
+import java.util.function.BooleanSupplier;
 
+import org.beaucoup4j.elle.binary.LBiPredicate;
 import org.beaucoup4j.elle.unary.LPredicate;
 
 /**
- * Varargs predicate.
- *
- * @param <E>
+ * Extend {@link BooleanSupplier}.
  */
 @FunctionalInterface
-public interface VarPredicate<E> {
+public interface LBooleanSupplier extends BooleanSupplier {
 
-    boolean test(@SuppressWarnings("unchecked") E... elements);
-
-    default VarPredicate<E> negate() {
-        return e -> !this.test(e);
+    static LBooleanSupplier of(BooleanSupplier wrapped) {
+        return wrapped instanceof LBooleanSupplier ? (LBooleanSupplier) wrapped : () -> wrapped.getAsBoolean();
     }
 
-    default VarPredicate<E> and(VarPredicate<? super E> other) {
-        Objects.requireNonNull(other);
-        return e -> test(e) && other.test(e);
+    default <T> LPredicate<T> asPredicate() {
+        return t -> getAsBoolean();
     }
 
-    default VarPredicate<E> or(VarPredicate<? super E> other) {
-        Objects.requireNonNull(other);
-        return e -> test(e) || other.test(e);
+    default <T, U> LBiPredicate<T, U> asBiPredicate() {
+        return (t, u) -> getAsBoolean();
     }
 
-    default LPredicate<E[]> toUnary() {
-        return e -> test(e);
+    default LBooleanSupplier negate() {
+        return () -> !getAsBoolean();
     }
 }

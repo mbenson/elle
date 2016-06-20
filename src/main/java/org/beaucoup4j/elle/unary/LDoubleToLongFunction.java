@@ -13,37 +13,27 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.beaucoup4j.elle.varargs;
+package org.beaucoup4j.elle.unary;
 
 import java.util.Objects;
-
-import org.beaucoup4j.elle.unary.LPredicate;
+import java.util.function.DoubleSupplier;
+import java.util.function.DoubleToLongFunction;
+import java.util.function.LongSupplier;
 
 /**
- * Varargs predicate.
- *
- * @param <E>
+ * Extend {@link DoubleToLongFunction}.
  */
 @FunctionalInterface
-public interface VarPredicate<E> {
+public interface LDoubleToLongFunction extends DoubleToLongFunction {
 
-    boolean test(@SuppressWarnings("unchecked") E... elements);
-
-    default VarPredicate<E> negate() {
-        return e -> !this.test(e);
+    static LDoubleToLongFunction of(DoubleToLongFunction wrapped) {
+        Objects.requireNonNull(wrapped);
+        return wrapped instanceof LDoubleToLongFunction ? (LDoubleToLongFunction) wrapped : d -> wrapped.applyAsLong(d);
     }
 
-    default VarPredicate<E> and(VarPredicate<? super E> other) {
-        Objects.requireNonNull(other);
-        return e -> test(e) && other.test(e);
+    default LongSupplier bind(DoubleSupplier d) {
+        Objects.requireNonNull(d);
+        return () -> applyAsLong(d.getAsDouble());
     }
 
-    default VarPredicate<E> or(VarPredicate<? super E> other) {
-        Objects.requireNonNull(other);
-        return e -> test(e) || other.test(e);
-    }
-
-    default LPredicate<E[]> toUnary() {
-        return e -> test(e);
-    }
 }

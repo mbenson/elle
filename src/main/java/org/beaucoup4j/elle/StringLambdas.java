@@ -18,11 +18,11 @@ package org.beaucoup4j.elle;
 import java.util.Locale;
 import java.util.function.Supplier;
 
-import org.beaucoup4j.elle.binary.BiFunction2;
-import org.beaucoup4j.elle.binary.BiPredicate2;
-import org.beaucoup4j.elle.binary.ToIntBiFunction2;
-import org.beaucoup4j.elle.unary.Function2;
-import org.beaucoup4j.elle.unary.Predicate2;
+import org.beaucoup4j.elle.binary.LBiFunction;
+import org.beaucoup4j.elle.binary.LBiPredicate;
+import org.beaucoup4j.elle.binary.LToIntBiFunction;
+import org.beaucoup4j.elle.unary.LFunction;
+import org.beaucoup4j.elle.unary.LPredicate;
 
 /**
  * Utility class that supplies various {@link String}-related function implementations.
@@ -39,11 +39,11 @@ public class StringLambdas {
     // Static Methods
     // ----------------------------------------------------------------------------------------------------------------------
 
-    public static Function2<String, String> abbreviate(final int maxWidth) {
+    public static LFunction<String, String> abbreviate(final int maxWidth) {
         return abbreviate(0, maxWidth);
     }
 
-    public static Function2<String, String> abbreviate(final int offset, final int maxWidth) {
+    public static LFunction<String, String> abbreviate(final int offset, final int maxWidth) {
         final int elen = ELLIPSIS.length();
 
         if (maxWidth <= elen) {
@@ -72,7 +72,7 @@ public class StringLambdas {
         };
     }
 
-    public static Function2<String, String> abbreviateMiddle(String middle, final int length) {
+    public static LFunction<String, String> abbreviateMiddle(String middle, final int length) {
         final String mid = middle == null ? "" : middle;
         final int content = length - mid.length();
         if (content < 2) {
@@ -90,16 +90,16 @@ public class StringLambdas {
         };
     }
 
-    public static BiPredicate2<CharSequence, CharSequence> contains() {
+    public static LBiPredicate<CharSequence, CharSequence> contains() {
         return (seq, subseq) -> seq != null && subseq != null && seq.toString().indexOf(subseq.toString()) >= 0;
     }
 
-    public static BiPredicate2<CharSequence, CharSequence> containsIgnoreCase() {
+    public static LBiPredicate<CharSequence, CharSequence> containsIgnoreCase() {
         return (seq, subseq) -> seq != null && subseq != null
                 && contains().test(lowerCase().apply(seq.toString()), lowerCase().apply(seq.toString()));
     }
 
-    public static BiFunction2<String, String, String> difference() {
+    public static LBiFunction<String, String, String> difference() {
         return (t, u) -> {
             if (u == null) {
                 return null;
@@ -109,7 +109,7 @@ public class StringLambdas {
         };
     }
 
-    public static ToIntBiFunction2<CharSequence, CharSequence> indexOfDifference() {
+    public static LToIntBiFunction<CharSequence, CharSequence> indexOfDifference() {
         return (t, u) -> {
             if (u == null) {
                 return -1;
@@ -124,27 +124,27 @@ public class StringLambdas {
         };
     }
 
-    public static Function2<CharSequence, String> lowerCase() {
+    public static LFunction<CharSequence, String> lowerCase() {
         return s -> s == null ? null : s.toString().toLowerCase();
     }
 
-    public static Function2<CharSequence, String> lowerCase(final Locale locale) {
+    public static LFunction<CharSequence, String> lowerCase(final Locale locale) {
         return s -> s == null ? null : s.toString().toLowerCase(locale);
     }
 
-    public static Function2<CharSequence, String> upperCase() {
+    public static LFunction<CharSequence, String> upperCase() {
         return s -> s == null ? null : s.toString().toUpperCase();
     }
 
-    public static Function2<CharSequence, String> upperCase(final Locale locale) {
+    public static LFunction<CharSequence, String> upperCase(final Locale locale) {
         return s -> s == null ? null : s.toString().toUpperCase(locale);
     }
 
-    public static BiPredicate2<CharSequence, CharSequence> startsWith() {
+    public static LBiPredicate<CharSequence, CharSequence> startsWith() {
         return (s, prefix) -> s == null ? prefix == null : prefix != null && s.toString().startsWith(prefix.toString());
     }
 
-    public static BiPredicate2<CharSequence, CharSequence> startsWithIgnoreCase() {
+    public static LBiPredicate<CharSequence, CharSequence> startsWithIgnoreCase() {
         return startsWith().compose(lowerCase(), lowerCase());
     }
 
@@ -152,23 +152,23 @@ public class StringLambdas {
         return () -> EMPTY_STRING;
     }
 
-    public static Predicate2<CharSequence> isEmpty() {
+    public static LPredicate<CharSequence> isEmpty() {
         return s -> s == null || s.length() == 0;
     }
 
-    public static Predicate2<CharSequence> isBlank() {
+    public static LPredicate<CharSequence> isBlank() {
         return isEmpty().compose(trim());
     }
 
-    public static Function2<CharSequence, String> trim() {
+    public static LFunction<CharSequence, String> trim() {
         return s -> s == null ? null : s.toString().trim();
     }
 
-    public static Function2<CharSequence, Integer> length() {
+    public static LFunction<CharSequence, Integer> length() {
         return s -> s == null ? 0 : s.length();
     }
 
-    public static Function2<String, String> reverse() {
+    public static LFunction<String, String> reverse() {
         return s -> s == null ? null : new StringBuilder(s).reverse().toString();
     }
 

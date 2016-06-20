@@ -19,6 +19,8 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import org.beaucoup4j.elle.unary.LFunction;
+
 /**
  * Varargs function.
  *
@@ -41,16 +43,16 @@ public interface VarFunction<E, R> {
     }
 
     @SuppressWarnings("unchecked")
-    default <V> Function<V, R> compose(final Function<? super V, ? extends E[]> before) {
+    default <V> LFunction<V, R> compose(final Function<? super V, ? extends E[]> before) {
         return t -> apply(before.apply(t));
     }
 
     @SuppressWarnings("unchecked")
-    default <V> Function<V, R> composeSingle(final Function<? super V, ? extends E> before) {
+    default <V> LFunction<V, R> composeSingle(final Function<? super V, ? extends E> before) {
         return t -> apply(before.apply(t));
     }
 
-    default Function<E[], R> toUnary() {
+    default LFunction<E[], R> toUnary() {
         return e -> apply(e);
     }
 }
