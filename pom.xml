@@ -55,7 +55,15 @@
                     <!-- m2e -->
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
+                    <compilerId>eclipse</compilerId>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.codehaus.plexus</groupId>
+                        <artifactId>plexus-compiler-eclipse</artifactId>
+                        <version>2.7</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
