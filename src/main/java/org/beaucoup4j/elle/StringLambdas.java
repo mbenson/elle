@@ -23,6 +23,7 @@ import org.beaucoup4j.elle.binary.LBiPredicate;
 import org.beaucoup4j.elle.binary.LToIntBiFunction;
 import org.beaucoup4j.elle.unary.LFunction;
 import org.beaucoup4j.elle.unary.LPredicate;
+import org.beaucoup4j.elle.unary.LToIntFunction;
 
 /**
  * Utility class that supplies various {@link String}-related function implementations.
@@ -164,7 +165,7 @@ public class StringLambdas {
         return s -> s == null ? null : s.toString().trim();
     }
 
-    public static LFunction<CharSequence, Integer> length() {
+    public static LToIntFunction<CharSequence> length() {
         return s -> s == null ? 0 : s.length();
     }
 
